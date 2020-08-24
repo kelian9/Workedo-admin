@@ -1,0 +1,18 @@
+@import '../../../../common/styles/variables.scss';
+
+.user-row {
+    margin-top: 10px;
+    @extend %display-flex-row;
+    justify-content: flex-start;
+
+    h2 {
+        font-size: 24px;
+        font-weight: 500;
+        color: #201e1e;
+    }
+
+    span {
+        margin-left: 15px;
+        font-size: 20px;
+    }
+}

@@ -1,0 +1,28 @@
+@import '../../../../common/styles/variables.scss';
+
+.passport {
+    h2 {
+        font-size: 24px;
+        color: #242222;
+    }
+
+    p {
+        margin-top: 10px;
+        font-size: 18px;
+        color: #2b2828;
+    }
+
+    .photos-row {
+        margin-top: 15px;
+        @extend %display-flex-row;
+
+        img {
+            width: 350px;
+            height: 300px;
+        }
+    }
+
+    .main-btn {
+        margin-top: 20px;
+    }
+}
