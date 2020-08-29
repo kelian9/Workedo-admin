@@ -19,10 +19,10 @@ const Package = () => {
     const [formFile, setFormFile] = useState('')
 
     const packageState = {
-        name: useFormState(''),
-        price: useFormState(''),
-        countCalls: useFormState(''),
-        packageType: useFormState('')
+        name: useFormState(packagesState?.find((item:PackageResponse) => packageId && item.id === +packageId)?.name),
+        price: useFormState(packagesState?.find((item:PackageResponse) => packageId && item.id === +packageId)?.price),
+        countCalls: useFormState(packagesState?.find((item:PackageResponse) => packageId && item.id === +packageId)?.countСalls),
+        packageType: useFormState(packagesState?.find((item:PackageResponse) => packageId && item.id === +packageId)?.packageType)
     }
 
     const setLocalState = (state:PackageResponse) => {
@@ -88,16 +88,30 @@ const Package = () => {
 
     return(
         <React.Fragment>
-            <h2>Пакет #{packageId}</h2>
-            <form className="category-form" noValidate onSubmit={(e) => submitForm(e)}>
-                <input type="text" {...packageState.name} className="main-input" placeholder="Пакет" />
-                <input type="text" {...packageState.price} className="main-input" placeholder="Цена" />
-                <input type="text" {...packageState.countCalls} className="main-input" placeholder="Кол-во" />
-                <input type="text" {...packageState.packageType} className="main-input" placeholder="Тип" />
-                {/* <input type="text" {...testRestaurant.regLink} className="main-input" placeholder="Ссылка для регистрации" /> */}
-                <button type="submit" className="main-btn">{ packageId != undefined ? 'Сохранить' : 'Добавить' }</button>
-                {packageId !== undefined ? <a onClick={deletePackage}>Удалить пакет</a> : null }
-            </form>
+            <div className="package">
+                <h2>Пакет #{packageId}</h2>
+                <form className="category-form" noValidate onSubmit={(e) => submitForm(e)}>
+                    <div className="main-input_with-label">
+                        <input type="text" id="name" {...packageState.name} className="main-input" />
+                        <label htmlFor="name" className={packageState.name.value === '' || packageState.name.value === undefined ? 'null' : 'filled-input_label'}>Имя</label>
+                    </div>
+                    <div className="main-input_with-label">
+                        <input type="text" id="price" {...packageState.price} className="main-input" />
+                        <label htmlFor="price" className={packageState.price.value === '' || packageState.price.value === undefined ? 'null' : 'filled-input_label'}>Цена</label>
+                    </div>
+                    <div className="main-input_with-label">
+                        <input type="text" id="countCalls" {...packageState.countCalls} className="main-input" />
+                        <label htmlFor="countCalls" className={packageState.countCalls.value === '' || packageState.countCalls.value === undefined ? 'null' : 'filled-input_label'}>Кол-во</label>
+                    </div>
+                    <div className="main-input_with-label">
+                        <input type="text" id="packageType" {...packageState.packageType} className="main-input" />
+                        <label htmlFor="packageType" className={packageState.packageType.value === '' || packageState.packageType.value === undefined ? 'null' : 'filled-input_label'}>Тип пакета</label>
+                    </div>
+                    {/* <input type="text" {...testRestaurant.regLink} className="main-input" placeholder="Ссылка для регистрации" /> */}
+                    <button type="submit" className="main-btn">{ packageId != undefined ? 'Сохранить' : 'Добавить' }</button>
+                    {packageId !== undefined ? <a onClick={deletePackage}>Удалить пакет</a> : null }
+                </form>
+            </div>
         </React.Fragment>
     );
 }

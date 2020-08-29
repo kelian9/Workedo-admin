@@ -20,16 +20,12 @@ const Category = () => {
     const [formFile, setFormFile] = useState('')
 
     const category = {
-        name: useFormState('')
-    }
-
-    const setLocalState = (state:CategoriesResponse) => {
-        category.name.onChange({target: { value: state.name }})
+        name: useFormState(categoriesState?.find((item:CategoriesResponse) => id && item.id === +id)?.name)
     }
 
     const getCategoryData = () => {
         let cat = categoriesState?.find((item:CategoriesResponse) => id && item.id === +id)
-        cat ? setLocalState(cat) : null
+        // cat ? setLocalState(cat) : null
     }
 
     const onSelectFile = (event:any) => {
@@ -59,8 +55,10 @@ const Category = () => {
             id ? +id : 0,
             form)
             .then((response:AxiosResponse<CategoriesResponse>) => {
-                dispatch(buildChangeCategory(response.data));
-                setLocalState(response.data);
+                dispatch(buildChangeCategory({
+                    id: id ? +id : 0,
+                    name: category.name.value
+                }));
             })
             .catch(err => console.log(err))
     }
@@ -72,13 +70,13 @@ const Category = () => {
         form.append('FormFile', formFile)
         CategoriesAPI.createCategory(form)
             .then((response:AxiosResponse<CategoriesResponse>) => {
-                dispatch(buildCreateCategory({name: response.data.name}));
+                dispatch(buildCreateCategory(response.data));
                 history.push(`/categories/category/${response.data.id}`)
             })
             .catch(err => console.log(err))
     }
 
-    const deleteRest = (e:any) => {
+    const deleteCategory = (e:any) => {
         e.preventDefault();
         CategoriesAPI.deleteCategory(id ? +id : 0)
             .then((response:AxiosResponse) => {
@@ -98,7 +96,7 @@ const Category = () => {
             getCategoryData();
         }
     })
-
+ 
     return(
         <React.Fragment>
             <div className="container">
@@ -109,7 +107,7 @@ const Category = () => {
                         <input type="file" onChange={onSelectFile} className="main-input" placeholder="File" />
                         {/* <input type="text" {...testRestaurant.regLink} className="main-input" placeholder="Ссылка для регистрации" /> */}
                         <button type="submit" className="main-btn">{ id != undefined ? 'Сохранить' : 'Добавить' }</button>
-                        {id !== undefined ? <a onClick={deleteRest}>Удалить ресторан</a> : null }
+                        {id !== undefined ? <a onClick={deleteCategory}>Удалить категорию</a> : null }
                     </form>
                 </div>
                 <div className="subcategories-container">

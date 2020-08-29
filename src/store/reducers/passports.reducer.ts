@@ -10,7 +10,11 @@ export const PassportsReducer = (
                 console.log(action.data, 'state')
                 return [...action.data] // don't copy previous state into array
             case actionsConstants.VERIFY_PASSPORT:
-                return state.filter(item => item.passportId != action.passportId)
+                return state.map(item => {
+                    if (item.passportId == action.passportId) {
+                        item.statusConfirm = 1;
+                    }
+                })
             default:
                 return state;
         }

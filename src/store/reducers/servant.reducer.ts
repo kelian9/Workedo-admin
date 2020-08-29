@@ -10,12 +10,15 @@ export const ServantReducer = (
                 id: 0,
                 name: "",
                 imageUrl: "",
+                countTasks: NaN,
                 category: {
                     id: 0,
                     name: "",
                     imageUrl: "",
+                    countTasks: NaN
                 }
-            }
+            },
+            countTasks: NaN
         },
         action:any
     ) => {
@@ -35,7 +38,8 @@ export const ServantReducer = (
                         name: state.subCategory.name,
                         imageUrl: state.subCategory.imageUrl,
                         category: state.subCategory.category
-                    }
+                    },
+                    countTasks: action.countTasks
                 }) : state
             default:
                 break;

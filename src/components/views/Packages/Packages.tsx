@@ -47,7 +47,7 @@ const Packages: React.FC = React.memo((props:any) => {
                         countCalls: item.countСalls,
                         packageType: item.packageType
                     }))}
-                    handleCellClick={(id) => history.push(`/packages/package/${id}`)}
+                    handleRowClick={(id) => history.push(`/packages/package/${id}`)}
                     headings={['Package', 'Цена', 'Кол-во заявок', 'Тип пакета']}
                     caption="Пакеты"
                 >

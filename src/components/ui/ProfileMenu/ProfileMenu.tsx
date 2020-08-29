@@ -7,13 +7,14 @@ const ProfileMenu = (props:{closeMenu:any}) => {
     const handleLogoutClick = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('expireDate');
+        localStorage.removeItem('user');
         localStorage.clear();
         history.push('/authorization');
     }
 
     return(
         <div className="profile-menu">
-            <NavLink to="/profile" onClick={() => props.closeMenu()}>Edit profile</NavLink>
+            {/* <NavLink to="/profile" onClick={() => props.closeMenu()}>Edit profile</NavLink> */}
             <a onClick={handleLogoutClick}>Logout</a>
         </div>
     );

@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
+import { UserModel } from '../../../api/models/user.model';
 
 const activityStyle = {
     // backgroundImage: `url(${activityIcon})`
@@ -15,13 +16,15 @@ const activityStyle = {
 
 const Sidebar = (props:any) => {
 
-    const profileState = useSelector((state:any) => state.SettingsReducer);
-    const dispatch = useDispatch();
+    // const profileState = useSelector((state:any) => state.SettingsReducer);
+    const dispatch = useDispatch()
 
-    const [clientWidth, changeClientWidth] = useState(document.documentElement.clientWidth);
-    const [menu, toggleMenu] = useState(false);
-    const [wallet, walletVision] = useState(false);
-    const [profileMenu, profileMenuVision] = useState(false);
+    const [clientWidth, changeClientWidth] = useState(document.documentElement.clientWidth)
+    const [menu, toggleMenu] = useState(false)
+    const [wallet, walletVision] = useState(false)
+    const [profileMenu, profileMenuVision] = useState(false)
+    // const [profileState, setProfileState] = useState<UserModel>(Object)
+    let profileState = localStorage.getItem('user')
 
     // const getPhoto = () => {
     //     getAvatar()
@@ -32,9 +35,9 @@ const Sidebar = (props:any) => {
     // }
 
     useEffect(() => {
-        if(profileState.person.photoUrl === undefined) {
-            // getPhoto();
-        }
+        // if(profileState.avatar === undefined) {
+        //     setProfileState()
+        // }
         window.addEventListener('resize', () => {
             changeClientWidth(document.documentElement.clientWidth);
         })
@@ -62,8 +65,7 @@ const Sidebar = (props:any) => {
 
             {/* Profile Menu */}
             <div className="profile-menu-toggle" onClick={showProfileMenu}>
-                <img src={'http://194.177.23.9:555/' + profileState.person.photoUrl} alt=" " className="avatar"/>
-                {/* <img src={profileToggleIcon} alt=""/> */}
+                <img src={'http://194.177.23.9:998/' + JSON.parse(profileState ? profileState : '')?.avatar} alt=" " className="avatar"/>
             </div>
             <div className="profile-menu-container">
                 <CSSTransition in={profileMenu} timeout={300} unmountOnExit classNames="show-hide-animation">

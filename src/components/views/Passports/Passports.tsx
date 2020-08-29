@@ -40,13 +40,13 @@ const Passports: React.FC = React.memo((props:any) => {
             <div className="table-container">
                 <DefaultTable 
                     list={passportsState?.map((item:PassportResponse) => ({
-                        passportId: item.passportId,
+                        id: item.passportId,
                         name: item.user.person.name,
-                        city: item.user.person.city.name,
+                        city: item.user?.person?.city?.name,
                         date: item.date,
-                        status: item.statusConfirm
+                        status: item.statusConfirm ? true : false
                     }))}
-                    handleCellClick={(passportId) => history.push(`/passports/${passportId}`)}
+                    handleRowClick={(id) => history.push(`/passports/${id}`)}
                     headings={['Имя', 'Город', 'Дата', 'Статус']}
                     caption="Паспорта"
                 >

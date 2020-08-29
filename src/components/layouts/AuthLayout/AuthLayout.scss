@@ -4,7 +4,8 @@
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-color: #F9FEFF;
+    // background-color: #F9FEFF;
+    background: $authBackground;
     z-index: 4;
     img {
         position: absolute;

@@ -5,7 +5,7 @@ import { useHistory, useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import checkLoggedIn from '../../../common/checkLoggedIn';
-import { setTasks } from '../../../store/actions/tasks-actions';
+import { setTasks, deleteTask as buildDeleteTask } from '../../../store/actions/tasks-actions';
 import { TaskResponse } from '../../../api/models/response/task-response.model';
 import TasksAPI from '../../../api/tasks';
 
@@ -25,12 +25,21 @@ const Tasks: React.FC = React.memo((props:any) => {
     const getTasksList = () => {
         localStorage.setItem('servantId', servantId ? servantId : '')
         console.log('update')
-        TasksAPI.getTasks(servantId ? +servantId : 0, 8, pageNumber)
-            .then((response:AxiosResponse<TaskResponse[]>) => {
-                dispatch(setTasks(response.data))
-                console.log(response.data)
+        servantId ? 
+            TasksAPI.getTasks(+servantId, 8, pageNumber)
+                .then((response:AxiosResponse<TaskResponse[]>) => {
+                    dispatch(setTasks(response.data))
+                    console.log(response.data)
+                })
+                .catch(err => console.log(err)) :
+            null
+    }
+
+    const deleteTask = (taskId:number) => {
+        TasksAPI.deleteTask(taskId ? +taskId : 0)
+            .then((response:AxiosResponse<TaskResponse>) => {
+                dispatch(buildDeleteTask({taskId: taskId ? +taskId : 0}))
             })
-            .catch(err => console.log(err))
     }
 
     useEffect(() => {
@@ -48,7 +57,9 @@ const Tasks: React.FC = React.memo((props:any) => {
                         owner: item.owner ? `Id ${item.owner.id} ${item.owner.person.name}` : '',
                         city: item.city ? item.city.name : ''
                     }))}
-                    handleCellClick={(taskId) => history.push(`/categories/category/${id}/subcategory/${subCategoryId}/servant/${servantId}/task/${taskId}`)}
+                    // handleRowClick={(taskId) => history.push(`/categories/category/${id}/subcategory/${subCategoryId}/servant/${servantId}/task/${taskId}`)}
+                    handleEditRowClick={(taskId) => history.push(`/categories/category/${id}/subcategory/${subCategoryId}/servant/${servantId}/task/${taskId}`)}
+                    handleDeleteRowClick={(taskId) => deleteTask(taskId)}
                     headings={['Задание', 'Описание', 'Owner', 'Город']}
                     caption="Задания"
                 >

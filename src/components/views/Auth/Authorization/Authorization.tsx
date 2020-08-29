@@ -23,18 +23,18 @@ const Authorization = () => {
     const logIn = (login:string,password:string, e:any) => {
         e.preventDefault();
         auth(login, password)
-        .then((response:AxiosResponse<AuthResponse>) => {
-            localStorage.setItem('token', `Bearer ${response.data.token.token}`);
-            localStorage.setItem('expireDate', response.data.token.expireDate);
-            localStorage.setItem('user', JSON.stringify(response.data.user))
-            dispatch(setAuthState({isLoggedIn: true, token: `Bearer ${response.data.token.token}`}));
-            setError(false);
-            history.push('/categories');
-        })
-        .catch(err => {
-            setError(true)
-            setTimeout(() => setError(false), 3500);
-        })
+            .then((response:AxiosResponse<AuthResponse>) => {
+                localStorage.setItem('token', `Bearer ${response.data.token.token}`);
+                localStorage.setItem('expireDate', response.data.token.expireDate);
+                localStorage.setItem('user', JSON.stringify(response.data.user))
+                dispatch(setAuthState({isLoggedIn: true, token: `Bearer ${response.data.token.token}`}));
+                setError(false);
+                history.push('/categories');
+            })
+            .catch(err => {
+                setError(true)
+                setTimeout(() => setError(false), 3500);
+            })
     }
 
     return (

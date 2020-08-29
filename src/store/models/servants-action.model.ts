@@ -3,7 +3,10 @@ import { ServantsResponse } from './../../api/models/response/servants-response.
 export interface setServantsAction extends ServantsResponse {}
 
 export interface createServantAction {
+    id: number;
     name: string;
+    countTasks: number;
+    imageUrl: string;
     subCategoryId: number;
 }
 

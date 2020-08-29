@@ -13,7 +13,7 @@ export const CategoriesReducer = (
             case actionsConstants.CREATE_CATEGORY:
                 return [
                     ...state,
-                    CategoryReducer({id: 1, name: '', imageUrl: ''}, action)
+                    CategoryReducer({id: 1, name: '', imageUrl: '', countTasks: NaN}, action)
                 ]
             case actionsConstants.CHANGE_CATEGORY:
                 return state.map(item => CategoryReducer(item, action))

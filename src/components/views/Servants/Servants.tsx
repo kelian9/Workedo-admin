@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import checkLoggedIn from '../../../common/checkLoggedIn';
 import { ServantsResponse } from '../../../api/models/response/servants-response.model';
-import { setServants } from '../../../store/actions/servants-actions';
+import { setServants, deleteServant as buildDeleteServant } from '../../../store/actions/servants-actions';
 import ServantsAPI from '../../../api/servants';
 
 const Servants: React.FC = React.memo((props:any) => {
@@ -20,19 +20,32 @@ const Servants: React.FC = React.memo((props:any) => {
     const dispatch = useDispatch();
 
     const [pageNumber, setPageNumber] = useState(1)
+    const [req, doReq] = useState(false)
 
     const getServantsList = () => {
         localStorage.setItem('subCategoryId', subCategoryId ? subCategoryId : '')
         console.log('update')
-        ServantsAPI.getServants(subCategoryId ? +subCategoryId : 0, 8, pageNumber)
-            .then((response:AxiosResponse<ServantsResponse[]>) => {
-                dispatch(setServants(response.data))
+        subCategoryId ? 
+            ServantsAPI.getServants(subCategoryId ? +subCategoryId : 0, 8, pageNumber, id ? +id : NaN)
+                .then((response:AxiosResponse<ServantsResponse[]>) => {
+                    doReq(true)
+                    dispatch(setServants(response.data))
+                })
+                .catch(err => console.log(err)) :
+            null
+    }
+
+    const deleteServant = (e:any) => {
+        e.preventDefault();
+        ServantsAPI.deleteServant(id ? +id : 0)
+            .then((response:AxiosResponse) => {
+                dispatch(buildDeleteServant({id: id ? +id : 0}))
             })
             .catch(err => console.log(err))
     }
 
     useEffect(() => {
-        localStorage.getItem('subCategoryId') != subCategoryId || !servantsState.length ? getServantsList() : null
+        localStorage.getItem('subCategoryId') != subCategoryId || !req ? getServantsList() : null
     });
 
     return(
@@ -45,7 +58,9 @@ const Servants: React.FC = React.memo((props:any) => {
                         imageUrl: item.imageUrl ? item.imageUrl : 'nothing',
                         subcategory: item.subCategory.id
                     }))}
-                    handleCellClick={(servantId) => history.push(`/categories/category/${id}/subcategory/${subCategoryId}/servant/${servantId}`)}
+                    // handleRowClick={(servantId) => history.push(`/categories/category/${id}/subcategory/${subCategoryId}/servant/${servantId}`)}
+                    handleEditRowClick={(servantId) => history.push(`/categories/category/${id}/subcategory/${subCategoryId}/servant/${servantId}`)}
+                    handleDeleteRowClick={(servantId) => deleteServant(servantId)}
                     headings={['Услуга', 'Image url', 'Subcategory number']}
                     caption="Услуги"
                 >

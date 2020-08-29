@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { TaskResponse } from '../../../../api/models/response/task-response.model';
+import TasksAPI from '../../../../api/tasks';
+import {deleteTask as buildDeleteTask} from '../../../../store/actions/tasks-actions';
+import { AxiosResponse } from 'axios';
 
 
 const Task:React.FC = React.memo((props:any) => {
@@ -24,6 +27,14 @@ const Task:React.FC = React.memo((props:any) => {
         }))[0])
     }
 
+    const deleteTask = () => {
+        TasksAPI.deleteTask(taskId ? +taskId : 0)
+            .then((response:AxiosResponse<TaskResponse>) => {
+                dispatch(buildDeleteTask({taskId: taskId ? +taskId : 0}))
+                setTimeout(() => history.push(`/categories/category/${id}/subcategory/${subCategoryId}/servant/${servantId}`), 0)
+            })
+    }
+
     useEffect(() => {
         localStorage.getItem('taskId') != taskId || task === null ? getTask() : null
     })
@@ -34,6 +45,7 @@ const Task:React.FC = React.memo((props:any) => {
                 <h2>{item[0]}</h2>
                 <span>{item[1]}</span>
             </div>))}
+            <button onClick={deleteTask} className="main-btn">Удалить задание</button>
         </React.Fragment>
     )
 })

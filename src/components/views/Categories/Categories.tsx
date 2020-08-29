@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { CategoriesResponse } from '../../../api/models/response/categories-response.model';
 import { AxiosResponse } from 'axios';
-import { setCategories } from '../../../store/actions/categories-actions';
+import { setCategories, deleteCategory as buildDeleteCategory } from '../../../store/actions/categories-actions';
 import checkLoggedIn from '../../../common/checkLoggedIn';
 import CategoriesAPI from '../../../api/categories';
 
@@ -29,6 +29,15 @@ const Categories: React.FC = React.memo((props:any) => {
             .catch(err => console.log(err))
     }
 
+    const deleteCategory = (e:number) => {
+        // e.preventDefault();
+        CategoriesAPI.deleteCategory(e ? +e : 0)
+            .then((response:AxiosResponse) => {
+                dispatch(buildDeleteCategory({id: e ? +e : 0}))
+            })
+            .catch(err => console.log(err))
+    }
+
     useEffect(() => {
         if(!categoriesState.length) {
             getCategoriesList()
@@ -45,7 +54,9 @@ const Categories: React.FC = React.memo((props:any) => {
                         name: item.name,
                         imageUrl: item.imageUrl ? item.imageUrl : 'nothing'
                     }))}
-                    handleCellClick={(id) => history.push(`/categories/category/${id}`)}
+                    // handleRowClick={(id) => history.push(`/categories/category/${id}`)}
+                    handleEditRowClick={(id) => history.push(`/categories/category/${id}`)}
+                    handleDeleteRowClick={(id) => deleteCategory(id)}
                     headings={['Category', 'Image url']}
                     caption="Категории"
                 >

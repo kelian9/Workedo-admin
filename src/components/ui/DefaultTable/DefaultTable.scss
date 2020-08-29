@@ -105,7 +105,7 @@ tr {
     border-bottom: 1px solid #F0F0F0;
     transition: 0.2s;
     &:hover {
-        background: #F4F9FC;
+        background: #f8fafc;
     }
     &:last-child {
         border-bottom: none;
@@ -133,6 +133,42 @@ tr {
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+        }
+    }
+
+    .edit-cell,
+    .delete-cell {
+        min-width: 30px;
+        width: 30px;
+        cursor: pointer;
+
+        &:hover {
+            img {
+                background: #bccfdb;
+            }
+        }
+
+        img {
+            padding: 7px;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+    }
+
+    .avatar-cell {
+        max-width: 50px;
+        padding: 6.5px;
+        img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .avatar-null {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgb(165, 165, 165);
         }
     }
 

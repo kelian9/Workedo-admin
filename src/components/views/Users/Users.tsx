@@ -44,12 +44,13 @@ const Users: React.FC = React.memo((props:any) => {
                 <DefaultTable 
                     list={usersState.map((item:UserModel) => ({
                         id: item.id,
+                        avatar: 'http://194.177.23.9:998/' + item.avatar,
                         name: item.person.name,
                         averageClientRating: item.averageClientRating,
                         averageJobRating: item.averageJobRating
                     }))}
-                    handleCellClick={(id) => history.push(`/users/${id}`)}
-                    headings={['Имя', 'Рейтинг заказчика', 'Рейтинг исполнителя']}
+                    handleRowClick={(id) => history.push(`/users/${id}`)}
+                    headings={['', 'Имя', 'Рейтинг заказчика', 'Рейтинг исполнителя']}
                     caption="Пользователи"
                 >
                 </DefaultTable>

@@ -4,4 +4,5 @@ export interface SubCategoriesResponse {
     name: string;
     imageUrl: string;
     category: CategoriesResponse;
+    countTasks: number;
 }

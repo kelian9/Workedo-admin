@@ -1,8 +1,8 @@
-import { SetSubCategoryAction } from './../models/subcategories-action.model';
+import { setSubCategoryAction } from './../models/subcategories-action.model';
 import actionsConstants from "../models/actions-constants";
 
 export const SubCategoryReducer = (
-        state:SetSubCategoryAction={
+        state:setSubCategoryAction={
             id: 1,
             name: "",
             imageUrl: "",

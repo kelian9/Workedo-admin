@@ -5,23 +5,23 @@ import axios, { AxiosResponse } from 'axios';
 const UsersAPI = {
 
     getUsers: (pageSize: number, pageNumber: number):Promise<AxiosResponse<UserModel[]>> => {
-        return axios.post(`${environment.apiEndPoint}/AdminProfile/GetUsersMostBuying`, {
-            pageSize: pageSize,
-            pageNumber: pageNumber
-        }, {
+        return axios.get(`${environment.apiEndPoint}/AdminProfile/list-buyer`, {
             headers: {
                 'Authorization' : localStorage.getItem('token'),
+            },
+            params: {
+                PageSize: pageSize,
+                PageNumber: pageNumber
             }
         });
     },
 
     deleteUser: (userId: number):Promise<AxiosResponse<UserModel[]>> => {
-        return axios.post(`${environment.apiEndPoint}/AdminProfile/DeletedUser`, {
-            userId: userId
-        }, {
+        return axios.delete(`${environment.apiEndPoint}/AdminProfile/delete/${userId}`, {
             headers: {
                 'Authorization' : localStorage.getItem('token'),
-            }
+            },
+            // params: { id: userId }
         });
     },
 

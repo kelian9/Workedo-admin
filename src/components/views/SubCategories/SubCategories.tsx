@@ -7,7 +7,8 @@ import { AxiosResponse } from 'axios';
 import checkLoggedIn from '../../../common/checkLoggedIn';
 import CategoriesAPI from '../../../api/categories';
 import { SubCategoriesResponse } from '../../../api/models/response/sub-categories-response.model';
-import { setSubCategories } from '../../../store/actions/subcategories-actions';
+import { setSubCategories, deleteSubCategory as buildDeleteSubCategory } from '../../../store/actions/subcategories-actions';
+import SubCategoriesAPI from '../../../api/subcategories';
 
 const SubCategories: React.FC = React.memo((props:any) => {
 
@@ -19,19 +20,30 @@ const SubCategories: React.FC = React.memo((props:any) => {
     const dispatch = useDispatch();
 
     const [pageNumber, setPageNumber] = useState(1)
+    const [req, doReq] = useState(false)
 
     const getSubCategoriesList = () => {
         localStorage.setItem('categoryId', id ? id : '')
         console.log('update')
         CategoriesAPI.getSubCategories(id ? +id : 0, 8, pageNumber)
             .then((response:AxiosResponse<SubCategoriesResponse[]>) => {
+                doReq(true)
                 dispatch(setSubCategories(response.data))
             })
             .catch(err => console.log(err))
     }
 
+    const deleteSubCategory = (e:any) => {
+        e.preventDefault();
+        SubCategoriesAPI.deleteSubCategory(id ? +id : 0)
+            .then((response:AxiosResponse) => {
+                dispatch(buildDeleteSubCategory({id: id ? +id : 0}))
+            })
+            .catch(err => console.log(err))
+    }
+
     useEffect(() => {
-        localStorage.getItem('categoryId') != id || !subCategoriesState.length ? getSubCategoriesList() : null
+        localStorage.getItem('categoryId') != id || !req ? getSubCategoriesList() : null
     });
 
     return(
@@ -42,13 +54,17 @@ const SubCategories: React.FC = React.memo((props:any) => {
                         id: item.id,
                         name: item.name,
                         imageUrl: item.imageUrl ? item.imageUrl : 'nothing',
-                        category: item.category.id
+                        category: item.category?.id
                     }))}
-                    handleCellClick={(identificator) => history.push(`/categories/category/${id}/subcategory/${identificator}`)}
+                    // handleRowClick={(identificator) => history.push(`/categories/category/${id}/subcategory/${identificator}`)}
+                    handleEditRowClick={(identificator) => history.push(`/categories/category/${id}/subcategory/${identificator}`)}
+                    handleDeleteRowClick={(identificator) => deleteSubCategory(identificator)}
                     headings={['Subcategory', 'Image url', 'Subcategory number']}
                     caption="Подкатегории"
                 >
-                    <button onClick={() => history.push(`/categories/category/${id}/subcategory`)} className="main-btn">Добавить подкатегорию</button>
+                    {
+                        <button onClick={() => history.push(`/categories/category/${id}/subcategory`)} className="main-btn">Добавить подкатегорию</button>
+                    }
                 </DefaultTable>
             </div>
         </React.Fragment>

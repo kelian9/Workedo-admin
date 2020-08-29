@@ -40,7 +40,7 @@ const Router = () => {
             <Route path="/packages" render={props => RenderAppComponent(<Packages />)} />
             <Route path="/users/:userId" render={props => RenderAppComponent(<User />)} />
             <Route path="/users" render={props => RenderAppComponent(<Users />)} />
-            <Route path="/passports/passport/:passportId" render={props => RenderAppComponent(<Passport />)} />
+            <Route path="/passports/:passportId" render={props => RenderAppComponent(<Passport />)} />
             <Route path="/passports" render={props => RenderAppComponent(<Passports />)} />
             <Route path="/categories/category/:id/subcategory/:subCategoryId/servant/:servantId/task/:taskId" render={props => RenderAppComponent(<Task />)} />
             <Route path="/categories/category/:id/subcategory/:subCategoryId/servant/:servantId" render={props => RenderAppComponent(<Servant />)} />

@@ -3,7 +3,7 @@ import actionsConstants from "../models/actions-constants";
 
 export const setPackages = (action:SetPackagesAction[]) => {
     return ({
-        type: actionsConstants.SET_CATEGORIES,
+        type: actionsConstants.SET_PACKAGES,
         data: action
     })
 }

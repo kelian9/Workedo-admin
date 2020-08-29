@@ -7,7 +7,6 @@ import { changeSubCategory as buildChangeSubCategory,
          createSubCategory as buildCreateSubCategory  } from '../../../../store/actions/subcategories-actions';
 import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import CategoriesAPI from '../../../../api/categories';
 import { SubCategoriesResponse } from '../../../../api/models/response/sub-categories-response.model';
 import SubCategoriesAPI from '../../../../api/subcategories';
 import Servants from '../../Servants/Servants';
@@ -63,6 +62,7 @@ const SubCategory = () => {
             subCategoryId ? +subCategoryId : 0,
             form)
             .then((response:AxiosResponse<SubCategoriesResponse>) => {
+                console.log(subcategory.name.value)
                 dispatch(buildChangeSubCategory({
                     id: subCategoryId ? +subCategoryId : NaN,
                     name: subcategory.name.value,
@@ -80,7 +80,7 @@ const SubCategory = () => {
         form.append('CategoryId', id ? id : '')
         SubCategoriesAPI.createSubCategory(form)
             .then((response:AxiosResponse<SubCategoriesResponse>) => {
-                dispatch(buildCreateSubCategory({name: response.data.name}));
+                dispatch(buildCreateSubCategory(response.data));
                 history.push(`/categories/category/${id}/subcategory/${response.data.id}`)
             })
             .catch(err => console.log(err))
@@ -120,7 +120,7 @@ const SubCategory = () => {
                         </div>
                         <input type="file" onChange={onSelectFile} className="main-input" placeholder="File" />
                         {/* <input type="text" {...testRestaurant.regLink} className="main-input" placeholder="Ссылка для регистрации" /> */}
-                        <button type="submit" className="main-btn">{ id != undefined ? 'Сохранить' : 'Добавить' }</button>
+                        <button type="submit" className="main-btn">{ subCategoryId != undefined ? 'Сохранить' : 'Добавить' }</button>
                         {id !== undefined ? <a onClick={deleteSubCategory}>Удалить подкатегорию</a> : null }
                     </form>
                 </div>

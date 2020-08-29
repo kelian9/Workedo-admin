@@ -3,9 +3,9 @@ import { NavLink, useHistory } from 'react-router-dom';
 import './Menu.scss';
 import homeIcon from '../../../assets/images/menu/home.svg';
 import restaurantIcon from '../../../assets/images/menu/restaurant.svg';
-import reviewsIcon from '../../../assets/images/menu/reviews.svg';
-import waiterIcon from '../../../assets/images/menu/waiter.svg';
-import walletIcon from '../../../assets/images/menu/wallet-icon.svg';
+import passportsIcon from '../../../assets/images/menu/passports.svg';
+import usersIcon from '../../../assets/images/menu/user-icon.svg';
+import packagesIcon from '../../../assets/images/menu/packages.svg';
 import logo from '../../../assets/images/menu/logo.svg';
 import qrIcon from '../../../assets/images/menu/qr.svg';
 import privacyIcon from '../../../assets/images/menu/union.svg';
@@ -13,14 +13,13 @@ import logoutIcon from '../../../assets/images/logout.svg';
 
 const Menu = (props:{vision:boolean}) => {
     const links = [
-        { icon: logo, path: '/main' },
+        { icon: logo, path: '/categories' },
         // { icon: homeIcon, path: '/rest' },
-        { icon: restaurantIcon, path: '/categories' },
-        { icon: reviewsIcon, path: '/passports' },
-        { icon: waiterIcon, path: '/users' },
-        { icon: walletIcon, path: '/packages' },
+        { icon: homeIcon, path: '/categories' },
+        { icon: passportsIcon, path: '/passports' },
+        { icon: usersIcon, path: '/users' },
+        { icon: packagesIcon, path: '/packages' },
         // { icon: qrIcon, path: '/home/qr-code' },
-        { icon: privacyIcon, path: '/policy-privacy' }
     ];
 
     const history = useHistory();
@@ -36,7 +35,7 @@ const Menu = (props:{vision:boolean}) => {
             <div className="navigation-inner">
                 <ul>
                     {links.map((link) => 
-                        <NavLink exact to={link.path} activeClassName="active-link" key={link.path}><img src={link.icon} alt=""/></NavLink>
+                        <NavLink exact to={link.path} activeClassName={link.icon != logo ? "active-link" : ''} key={link.path}><img src={link.icon} alt="" style={link.icon === logo ? {width: '60px'} : {width: '35px'}} /></NavLink>
                     )}
                     <a onClick={handleLogoutClick}><img src={logoutIcon} alt=""/></a>
                 </ul>

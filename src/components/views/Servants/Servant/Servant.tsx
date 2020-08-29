@@ -82,7 +82,13 @@ const Servant = () => {
         form.append('SubCategoryId', subCategoryId ? subCategoryId : '')
         ServantsAPI.createServant(form)
             .then((response:AxiosResponse<ServantsResponse>) => {
-                dispatch(buildCreateServant({name: response.data.name, subCategoryId: subCategoryId ? +subCategoryId: NaN}));
+                dispatch(buildCreateServant({
+                    id: response.data.id,
+                    name: response.data.name,
+                    countTasks: response.data.countTasks,
+                    imageUrl: response.data.imageUrl,
+                    subCategoryId: response.data.subCategory.id
+                }));
                 history.push(`/categories/category/${id}/subcategory/${subCategoryId}`)
             })
             .catch(err => console.log(err))

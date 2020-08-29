@@ -2,9 +2,7 @@ import { SubCategoriesResponse } from "../../api/models/response/sub-categories-
 
 export interface setSubCategoryAction extends SubCategoriesResponse {}
 
-export interface createSubCategoryAction {
-    name: string;
-}
+export interface createSubCategoryAction extends SubCategoriesResponse {}
 
 export interface changeSubCategoryAction {
     id: number;

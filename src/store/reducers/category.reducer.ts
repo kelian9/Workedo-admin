@@ -5,21 +5,22 @@ export const CategoryReducer = (
         state:setCategoryAction={
             id: 1,
             name: "",
-            imageUrl: ""
+            imageUrl: "",
+            countTasks: NaN
         },
         action:any
     ) => {
         switch (action.type) {
             case actionsConstants.CREATE_CATEGORY:
                 return({
-                    ...state,
                     ...action
                 })
             case actionsConstants.CHANGE_CATEGORY:
                 return state.id === action.id ? ({
                     ...state,
                     name: action.name,
-                    imageUrl: action.imageUrl
+                    imageUrl: action.imageUrl,
+                    countTasks: action.countTasks
                 }) : state
             default:
                 break;

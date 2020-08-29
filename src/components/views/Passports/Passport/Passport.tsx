@@ -4,6 +4,9 @@ import { useHistory, useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import checkLoggedIn from '../../../../common/checkLoggedIn';
 import { PassportResponse } from '../../../../api/models/response/passport-response.model';
+import { verifyPassport } from '../../../../store/actions/passport-actions';
+import PassportsAPI from '../../../../api/passports';
+import { AxiosResponse } from 'axios';
 
 const Passport: React.FC = React.memo((props:any) => {
 
@@ -23,6 +26,17 @@ const Passport: React.FC = React.memo((props:any) => {
         setPassport(passportsState?.find((item: PassportResponse) => passportId && item.passportId === +passportId))
     }
 
+    const verifyUserPassport = () => {
+        PassportsAPI.verifyClient(passportId ? +passportId : 0, true)
+            .then((res:AxiosResponse<boolean>) => {
+                if(res.data) {
+                    dispatch(verifyPassport({
+                        passportId: passportId ? +passportId : 0
+                    }))
+                }
+            })
+    }
+
     useEffect(() => {
         !req ? getPassport() : null
     });
@@ -36,10 +50,10 @@ const Passport: React.FC = React.memo((props:any) => {
             <p>Статус: {passport?.statusConfirm}</p>
             <p className="photos-row">
                 { passport?.photos?.map((item: string) => (
-                    <img src={item} alt=""/>
+                    <img src={'http://194.177.23.9:998/' + item} alt=""/>
                 )) }
             </p>
-            <button className="main-btn">Верифицировать клиента</button>
+            <button className="main-btn" onClick={verifyUserPassport}>Верифицировать клиента</button>
         </div>
     );
 })

@@ -4,4 +4,5 @@ export interface ServantsResponse {
     name: string;
     imageUrl: string;
     subCategory: SubCategoriesResponse;
+    countTasks: number;
 }

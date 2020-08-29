@@ -1,13 +1,17 @@
-import React, { useState, ReactHTMLElement } from "react";
+import React, { useState } from "react";
 import './DefaultTable.scss';
 import Moment from 'react-moment';
 import sortTableIcon from '../../../assets/images/icons/sort-table-icon.svg';
+import editIcon from '../../../assets/images/icons/edit.svg';
+import deleteIcon from '../../../assets/images/icons/delete.svg';
 
 interface DefaultTableProps {
     list: any[] | [];
     caption?:string;
     headings?:any[];
-    handleCellClick?:(id:any) => any;
+    handleRowClick?:(id:any) => any;
+    handleEditRowClick?:(id: any) => any;
+    handleDeleteRowClick?:(id: any) => any;
     children?:any; // Just for filter
 }
 
@@ -61,10 +65,16 @@ const DefaultTable = (props:DefaultTableProps) => {
         if(tableSortProps.length === 0) {
             generateSortState(); // Get initial state for sorting
         }
-        return (customHeadings != undefined ? customHeadings : th).map((heading, index) => 
+        
+        let headingListCells = (customHeadings != undefined ? customHeadings : th).map((heading, index) => 
             typeof(props.list[0][th[index]]) === 'number' || (props.list[0][th[index]]?.getDate && typeof(props.list[0][th[index]]) === 'object') ?
                 <th key={th[index].slice(0,5)} onClick={() => sortList(th[index])} className="sortable-heading">{heading}&nbsp;<img src={sortTableIcon} alt="arrow-icon" /></th> :
-                <th key={th[index].slice(0,5)}>{heading}</th>)
+                <th key={th[index].slice(0,5)}>{heading}</th>);
+            
+        props.handleEditRowClick ? headingListCells.push(<th key="edit" style={{width: '30px'}}></th>) : null
+        props.handleDeleteRowClick ? headingListCells.push(<th key="delete" style={{width: '30px'}}></th>) : null
+
+        return headingListCells;
     };
 
     // Build headings
@@ -120,6 +130,13 @@ const DefaultTable = (props:DefaultTableProps) => {
                                 if (key === 'id' || key.includes('Id')) {
                                     return;
                                 }
+                                if(key === 'avatar') {
+                                    return (
+                                        <td key={key} className="avatar-cell">
+                                            {value.length != 24 ? <img src={value} alt=""/> : <div className="avatar-null"></div>}
+                                        </td>
+                                    )
+                                }
                                 if(typeof value === 'boolean') {
                                     return <td key={key} className={value ? 'confirmed-row' : 'not-confirmed-row'}><span></span></td>
                                 }
@@ -137,11 +154,14 @@ const DefaultTable = (props:DefaultTableProps) => {
                                 return <td key={key}>{value}</td>;
                             });
 
-        return props.handleCellClick != undefined ?
+        props.handleEditRowClick ? cells.push(<td className="edit-cell" onClick={() => props.handleEditRowClick ? props.handleEditRowClick(row.id) : null}><img src={editIcon} alt=""/></td>) : null
+        props.handleDeleteRowClick ? cells.push(<td className="delete-cell" onClick={() => props.handleDeleteRowClick ? props.handleDeleteRowClick(row.id) : null}><img src={deleteIcon} alt=""/></td>) : null
+
+        return props.handleRowClick != undefined ?
                                     <tr className="default-table_data-row"
                                         key={rowIndex} 
                                         style={{cursor: 'pointer'}}
-                                        onClick={() => props.handleCellClick ? props.handleCellClick(row.id) : null}>{cells}</tr> :
+                                        onClick={() => props.handleRowClick ? props.handleRowClick(row.id) : null}>{cells}</tr> :
                                     <tr className="default-table_data-row" key={rowIndex}>{cells}</tr>
     });
 

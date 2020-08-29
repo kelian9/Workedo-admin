@@ -6,6 +6,7 @@ export interface createCategoryAction {
     id: number;
     name: string;
     imageUrl:string;
+    countTasks: number;
 }
 
 export interface changeCategoryAction {

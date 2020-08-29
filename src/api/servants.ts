@@ -4,20 +4,23 @@ import axios, { AxiosResponse } from 'axios';
 
 const ServantsAPI = {
 
-    getServants: (subCategoryId:number, pageSize: number, pageNumber: number):Promise<AxiosResponse<ServantsResponse[]>> => {
-        return axios.post(`${environment.apiEndPoint}/Category/GetListServant`, {
-            pageSize: pageSize,
-            pageNumber: pageNumber
-        }, {
+    getServants: (subCategoryId:number, pageSize: number, pageNumber: number, parentId: number):Promise<AxiosResponse<ServantsResponse[]>> => {
+        return axios.get(`${environment.apiEndPoint}/Category/list-servant/${subCategoryId}/${parentId}`, {
             headers: {
                 'Authorization' : localStorage.getItem('token'),
             },
-            params: { subCategory: subCategoryId } 
+            params: { 
+                parentId: parentId,
+                search: '',
+                subCategoryId: subCategoryId,
+                PageSize: pageSize,
+                PageNumber: pageNumber
+            } 
         });
     },
 
     createServant: (form: FormData):Promise<AxiosResponse> => {
-        return axios.post(`${environment.apiEndPoint}/AdminCategories/AddServant`, form, {
+        return axios.post(`${environment.apiEndPoint}/AdminCategories/create-servant`, form, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization' : localStorage.getItem('token'),
@@ -26,21 +29,21 @@ const ServantsAPI = {
     },
     
     changeServant: (servantId:number, form: FormData):Promise<AxiosResponse> => {
-        return axios.post(`${environment.apiEndPoint}/AdminCategories/ChangeServant`, form, {
+        return axios.post(`${environment.apiEndPoint}/AdminCategories/update-servant/${servantId}`, form, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization' : localStorage.getItem('token'),
             },
-            params: { servantId: servantId } 
+            // params: { id: servantId } 
         });
     },
     
     deleteServant: (servantId:number):Promise<AxiosResponse> => {
-        return axios.get(`${environment.apiEndPoint}/AdminCategories/DeleteServant`, {
+        return axios.delete(`${environment.apiEndPoint}/AdminCategories/delete-servant/${servantId}`, {
             headers: {
                 'Authorization' : localStorage.getItem('token'),
             },
-            params: { servantId: servantId } 
+            // params: { id: servantId } 
         });
     }
 }

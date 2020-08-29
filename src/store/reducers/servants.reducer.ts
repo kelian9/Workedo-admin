@@ -13,7 +13,7 @@ export const ServantsReducer = (
             case actionsConstants.CREATE_SERVANT:
                 return [
                     ...state,
-                    ServantReducer({id: 1, name: '', imageUrl: '', subCategory:{id:0, name: '', imageUrl: '', category: {id: 0, name: '', imageUrl:''}}}, action)
+                    ServantReducer({id: 1, name: '', imageUrl: '', subCategory:{id:0, name: '', imageUrl: '', countTasks: NaN, category: {id: 0, name: '', imageUrl:'', countTasks: NaN}}, countTasks: NaN}, action)
                 ]
             case actionsConstants.CHANGE_SERVANT:
                 return state.map(item => ServantReducer(item, action))

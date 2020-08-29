@@ -28,8 +28,8 @@ nav {
             text-decoration: none;
             transition: 0.2s;
             img {
-                max-width: 40px;
-                max-height: 40px;
+                // max-width: 40px;
+                // max-height: 40px;
             }
             &:not(.active-link):hover {
                 background: $menuActiveLink;
@@ -39,6 +39,9 @@ nav {
                 &:hover {
                     background: none;
                 }
+            }
+            &:last-child {
+                margin-top: 110px;
             }
             &:nth-child(2) {
                 margin-top: 90px;
