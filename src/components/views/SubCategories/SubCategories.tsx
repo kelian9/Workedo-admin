@@ -22,13 +22,16 @@ const SubCategories: React.FC = React.memo((props:any) => {
     const [pageNumber, setPageNumber] = useState(1)
     const [req, doReq] = useState(false)
 
-    const getSubCategoriesList = () => {
+    const getSubCategoriesList = (page?: number) => {
         localStorage.setItem('categoryId', id ? id : '')
         console.log('update')
-        CategoriesAPI.getSubCategories(id ? +id : 0, 8, pageNumber)
+        CategoriesAPI.getSubCategories(id ? +id : 0, 8, page ? page : pageNumber)
             .then((response:AxiosResponse<SubCategoriesResponse[]>) => {
-                doReq(true)
-                dispatch(setSubCategories(response.data))
+                if (response.data.length) {
+                    page ? setPageNumber(page) : null;
+                    doReq(true)
+                    dispatch(setSubCategories(response.data))
+                }
             })
             .catch(err => console.log(err))
     }
@@ -42,8 +45,18 @@ const SubCategories: React.FC = React.memo((props:any) => {
             .catch(err => console.log(err))
     }
 
+    const onSelectPrevPage = () => {
+        if (pageNumber > 1) {
+            getSubCategoriesList(pageNumber - 1)
+        }
+    }
+
+    const onSelectNextPage = () => {
+        getSubCategoriesList(pageNumber + 1);
+    }
+
     useEffect(() => {
-        localStorage.getItem('categoryId') != id || !req ? getSubCategoriesList() : null
+        id && (localStorage.getItem('categoryId') != id || !req) ? getSubCategoriesList() : null
     });
 
     return(
@@ -63,7 +76,14 @@ const SubCategories: React.FC = React.memo((props:any) => {
                     caption="Подкатегории"
                 >
                     {
-                        <button onClick={() => history.push(`/categories/category/${id}/subcategory`)} className="main-btn">Добавить подкатегорию</button>
+                        <React.Fragment>
+                            <button onClick={() => history.push(`/categories/category/${id}/subcategory`)} className="main-btn">Добавить подкатегорию</button>
+                            <div className="page-switches">
+                                <button className="prev-page" onClick={onSelectPrevPage}></button>
+                                <div>{pageNumber}</div>
+                                <button className="next-page" onClick={onSelectNextPage}></button>
+                            </div>
+                        </React.Fragment>
                     }
                 </DefaultTable>
             </div>

@@ -52,7 +52,7 @@ const CategoriesAPI = {
     },
     
     deleteCategory: (categoryId:number):Promise<AxiosResponse> => {
-        return axios.delete(`${environment.apiEndPoint}/AdminCategories/delete-category/${categoryId}`, {
+        return axios.delete(`${environment.apiEndPoint}/AdminCategories/delete-category${categoryId}`, {
             headers: {
                 'Authorization' : localStorage.getItem('token'),
             },

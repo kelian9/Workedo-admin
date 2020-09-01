@@ -9,8 +9,10 @@ export const SubCategoryReducer = (
             category: {
                 id: 0,
                 name: "",
-                imageUrl: ""
-            }
+                imageUrl: "",
+                countTasks: NaN
+            },
+            countTasks: NaN
         },
         action:any
     ) => {

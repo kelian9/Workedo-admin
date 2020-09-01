@@ -54,13 +54,13 @@ const Package = () => {
         console.log(formFile)
         PackagesAPI.createPackage({
                 name: packageState.name.value,
-                price: packageState.price.value,
-                countСalls: packageState.countCalls.value,
-                packageType: packageState.packageType.value,
+                price: packageState.price.value ? +packageState.price.value : 0,
+                countСalls: packageState.countCalls.value ? +packageState.countCalls.value : 0,
+                packageType: packageState.packageType.value ? +packageState.packageType.value : 0,
             })
             .then((response:AxiosResponse<PackageResponse>) => {
                 dispatch(buildCreatePackage(response.data));
-                history.push(`/categories/category/${response.data.id}`)
+                history.push(`/packages/package/${response.data.id}`)
             })
             .catch(err => console.log(err))
     }
@@ -70,7 +70,7 @@ const Package = () => {
         PackagesAPI.deletePackage(packageId ? +packageId : 0)
             .then((response:AxiosResponse) => {
                 dispatch(buildDeletePackage({packageId: packageId ? +packageId : 0}))
-                setTimeout(()=>history.push('/categories'),0)
+                setTimeout(()=>history.push('/packages'),0)
             })
             .catch(err => console.log(err))
     }

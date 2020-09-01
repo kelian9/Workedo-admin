@@ -22,14 +22,17 @@ const Servants: React.FC = React.memo((props:any) => {
     const [pageNumber, setPageNumber] = useState(1)
     const [req, doReq] = useState(false)
 
-    const getServantsList = () => {
+    const getServantsList = (page?:number) => {
         localStorage.setItem('subCategoryId', subCategoryId ? subCategoryId : '')
         console.log('update')
         subCategoryId ? 
-            ServantsAPI.getServants(subCategoryId ? +subCategoryId : 0, 8, pageNumber, id ? +id : NaN)
+            ServantsAPI.getServants(subCategoryId ? +subCategoryId : 0, 8, page ? page : pageNumber, id ? +id : NaN)
                 .then((response:AxiosResponse<ServantsResponse[]>) => {
-                    doReq(true)
-                    dispatch(setServants(response.data))
+                    if(response.data.length) {
+                        page ? setPageNumber(page) : null;
+                        doReq(true)
+                        dispatch(setServants(response.data))
+                    }
                 })
                 .catch(err => console.log(err)) :
             null
@@ -42,6 +45,16 @@ const Servants: React.FC = React.memo((props:any) => {
                 dispatch(buildDeleteServant({id: id ? +id : 0}))
             })
             .catch(err => console.log(err))
+    }
+
+    const onSelectPrevPage = () => {
+        if (pageNumber > 1) {
+            getServantsList(pageNumber - 1)
+        }
+    }
+
+    const onSelectNextPage = () => {
+        getServantsList(pageNumber + 1);
     }
 
     useEffect(() => {
@@ -65,6 +78,11 @@ const Servants: React.FC = React.memo((props:any) => {
                     caption="Услуги"
                 >
                     <button onClick={() => history.push(`/categories/category/${id}/subcategory/${subCategoryId}/servant`)} className="main-btn">Добавить услугу</button>
+                    <div className="page-switches">
+                        <button className="prev-page" onClick={onSelectPrevPage}></button>
+                        <div>{pageNumber}</div>
+                        <button className="next-page" onClick={onSelectNextPage}></button>
+                    </div>
                 </DefaultTable>
             </div>
         </React.Fragment>

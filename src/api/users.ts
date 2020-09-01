@@ -5,13 +5,14 @@ import axios, { AxiosResponse } from 'axios';
 const UsersAPI = {
 
     getUsers: (pageSize: number, pageNumber: number):Promise<AxiosResponse<UserModel[]>> => {
-        return axios.get(`${environment.apiEndPoint}/AdminProfile/list-buyer`, {
+        return axios.get(`${environment.apiEndPoint}/AdminProfile/list`, {
             headers: {
                 'Authorization' : localStorage.getItem('token'),
             },
             params: {
                 PageSize: pageSize,
-                PageNumber: pageNumber
+                PageNumber: pageNumber,
+                search: ''
             }
         });
     },

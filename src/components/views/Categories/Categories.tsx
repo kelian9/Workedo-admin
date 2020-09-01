@@ -18,13 +18,18 @@ const Categories: React.FC = React.memo((props:any) => {
     const dispatch = useDispatch();
 
     const [pageNumber, setPageNumber] = useState(1)
+    const [req, doReq] = useState(false)
 
-    const getCategoriesList = () => {
-        CategoriesAPI.getCategories(8, pageNumber)
+    const getCategoriesList = (page?: number) => {
+        CategoriesAPI.getCategories(8, page ? page : pageNumber)
             .then((response:AxiosResponse<CategoriesResponse[]>) => {
-                dispatch(setCategories(response.data))
-                console.log(response.data)
-                console.log(categoriesState)
+                doReq(true)
+                if(response.data.length) {
+                    dispatch(setCategories(response.data))
+                    page ? setPageNumber(page) : null;
+                    console.log(response.data)
+                    console.log(categoriesState)
+                }
             })
             .catch(err => console.log(err))
     }
@@ -38,8 +43,18 @@ const Categories: React.FC = React.memo((props:any) => {
             .catch(err => console.log(err))
     }
 
+    const onSelectPrevPage = () => {
+        if (pageNumber > 1) {
+            getCategoriesList(pageNumber - 1)
+        }
+    }
+
+    const onSelectNextPage = () => {
+        getCategoriesList(pageNumber + 1);
+    }
+
     useEffect(() => {
-        if(!categoriesState.length) {
+        if(!req) {
             getCategoriesList()
         }
         // categoriesState.length ? console.log(categoriesState) : null
@@ -60,7 +75,14 @@ const Categories: React.FC = React.memo((props:any) => {
                     headings={['Category', 'Image url']}
                     caption="Категории"
                 >
-                    <button onClick={() => history.push('/categories/category')} className="main-btn">Добавить категорию</button>
+                    <React.Fragment>
+                        <div className="page-switches">
+                            <button className="prev-page" onClick={onSelectPrevPage}></button>
+                            <div>{pageNumber}</div>
+                            <button className="next-page" onClick={onSelectNextPage}></button>
+                        </div>
+                        <button onClick={() => history.push('/categories/category')} className="main-btn">Добавить категорию</button>
+                    </React.Fragment>
                 </DefaultTable>
             </div>
         </React.Fragment>

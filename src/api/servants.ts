@@ -34,7 +34,7 @@ const ServantsAPI = {
                 'Content-Type': 'multipart/form-data',
                 'Authorization' : localStorage.getItem('token'),
             },
-            // params: { id: servantId } 
+            params: { id: servantId } 
         });
     },
     

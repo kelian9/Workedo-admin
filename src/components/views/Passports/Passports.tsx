@@ -21,14 +21,27 @@ const Passports: React.FC = React.memo((props:any) => {
     const [pageNumber, setPageNumber] = useState(1)
     const [req, doReq] = useState(false)
 
-    const getPassportsList = () => {
-        PassportsAPI.getPassports(8, pageNumber)
+    const getPassportsList = (page?:number) => {
+        PassportsAPI.getPassports(8, page ? page : pageNumber)
             .then((response:AxiosResponse<PassportResponse[]>) => {
-                doReq(true)
-                dispatch(setPassports(response.data))
-                console.log(response.data)
+                if(response.data.length) {
+                    page ? setPageNumber(page) : null
+                    doReq(true)
+                    dispatch(setPassports(response.data))
+                    console.log(response.data)
+                }
             })
             .catch(err => console.log(err))
+    }
+
+    const onSelectPrevPage = () => {
+        if (pageNumber > 1) {
+            getPassportsList(pageNumber - 1)
+        }
+    }
+
+    const onSelectNextPage = () => {
+        getPassportsList(pageNumber + 1);
     }
 
     useEffect(() => {
@@ -50,6 +63,11 @@ const Passports: React.FC = React.memo((props:any) => {
                     headings={['Имя', 'Город', 'Дата', 'Статус']}
                     caption="Паспорта"
                 >
+                    <div className="page-switches">
+                        <button className="prev-page" onClick={onSelectPrevPage}></button>
+                        <div>{pageNumber}</div>
+                        <button className="next-page" onClick={onSelectNextPage}></button>
+                    </div>
                     {/* <button onClick={() => history.push(`/categories/category/${id}/subcategory/${subCategoryId}/servant/${servantId}/task`)} className="main-btn">Добавить задание</button> */}
                 </DefaultTable>
             </div>

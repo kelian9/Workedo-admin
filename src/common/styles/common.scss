@@ -82,6 +82,48 @@ a {
     // }
 }
 
+.page-switches {
+    width: 120px;
+    @extend %display-flex-row;
+    background: #2862C4;
+    border: 1px solid #2862C4;
+    border-radius: 4px;
+    button {
+        width: 40px;
+        height: 40px;
+        box-sizing: border-box;
+        background: transparent url('../../assets/images/icons/prev-page.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        border: 0;
+        font-size: 18px;
+        color: #ffffff;
+
+        &:first-child {
+            border-radius: 4px 0 0 4px;
+            
+        }
+
+        &:last-child {
+            transform: rotate(180deg);
+            border-radius: 4px 0 0 4px;
+        }
+    }
+
+    div {
+        width: 40px;
+        height: 40px;
+        @extend %display-flex-row;
+        justify-content: center;
+        box-sizing: border-box;
+        border-left: 1px solid #e3eafd;
+        border-right: 1px solid #e3eafd;
+        text-align: center;
+        font-size: 18px;
+        color: #ffffff;
+    }
+}
+
 .main-input_with-label {
     width: 312px;
     height: 56px;

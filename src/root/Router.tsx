@@ -37,6 +37,7 @@ const Router = () => {
             <Route path="/authorization" render={props => RenderAuthComponent(<Authorization />)} />
             <Route path="/registration" component={Registration} />
             <Route path="/packages/package/:packageId" render={props => RenderAppComponent(<Package />)} />
+            <Route path="/packages/package" render={props => RenderAppComponent(<Package />)} />
             <Route path="/packages" render={props => RenderAppComponent(<Packages />)} />
             <Route path="/users/:userId" render={props => RenderAppComponent(<User />)} />
             <Route path="/users" render={props => RenderAppComponent(<Users />)} />

@@ -4,7 +4,7 @@ import axios, { AxiosResponse } from 'axios';
 const SubCategoriesAPI = {
     
     createSubCategory: (form: FormData):Promise<AxiosResponse> => {
-        return axios.post(`${environment.apiEndPoint}/AdminCategories/CreateSubCategory`, form, {
+        return axios.post(`${environment.apiEndPoint}/AdminCategories/create-subcategory`, form, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization' : localStorage.getItem('token'),
@@ -13,7 +13,7 @@ const SubCategoriesAPI = {
     },
     
     changeSubCategory: (subCategoryId:number, form: FormData):Promise<AxiosResponse> => {
-        return axios.post(`${environment.apiEndPoint}/AdminCategories/ChangeSubCategory/${subCategoryId}`, form, {
+        return axios.post(`${environment.apiEndPoint}/AdminCategories/update-subcategory/${subCategoryId}`, form, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization' : localStorage.getItem('token'),
@@ -23,7 +23,7 @@ const SubCategoriesAPI = {
     },
     
     deleteSubCategory: (subCategoryId:number):Promise<AxiosResponse> => {
-        return axios.get(`${environment.apiEndPoint}/AdminCategories/DeleteSubCategory/${subCategoryId}`, {
+        return axios.get(`${environment.apiEndPoint}/AdminCategories/delete-subcategory/${subCategoryId}`, {
             headers: {
                 'Authorization' : localStorage.getItem('token'),
             },

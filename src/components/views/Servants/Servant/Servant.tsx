@@ -80,6 +80,7 @@ const Servant = () => {
         form.append('Name', servant.name.value)
         form.append('FormFile', formFile)
         form.append('SubCategoryId', subCategoryId ? subCategoryId : '')
+        form.append('ParentId', id ? id : '')
         ServantsAPI.createServant(form)
             .then((response:AxiosResponse<ServantsResponse>) => {
                 dispatch(buildCreateServant({
@@ -106,7 +107,7 @@ const Servant = () => {
 
     const submitForm = (e:React.FormEvent) => {
         e.preventDefault();
-        subCategoryId ? changeServant() : createServant();
+        servantId ? changeServant() : createServant();
     }
 
     useEffect(() => {

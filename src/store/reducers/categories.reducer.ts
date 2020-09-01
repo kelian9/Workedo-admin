@@ -9,7 +9,7 @@ export const CategoriesReducer = (
         switch (action.type) {
             case actionsConstants.SET_CATEGORIES:
                 console.log(action.data, 'state')
-                return [...action.data] // don't copy previous state into array
+                return action.data // don't copy previous state into array
             case actionsConstants.CREATE_CATEGORY:
                 return [
                     ...state,
